@@ -9,6 +9,16 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final TextEditingController _passwordController = TextEditingController();
+  bool _obscurePassword = true;
+  String? _passwordError;
+
+  @override
+  void dispose() {
+    _passwordController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,6 +60,7 @@ class _LoginPageState extends State<LoginPage> {
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 30),
                 child: const TextField(
+                  style: TextStyle(color: Colors.white  ),
                   decoration: InputDecoration(
                     hintText: 'Enter your email',
                     hintStyle: TextStyle(color: Colors.white),
@@ -64,27 +75,48 @@ class _LoginPageState extends State<LoginPage> {
               const SizedBox(height: 20),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 30),
-                child: const TextField(
+                child: TextField(
+                  controller: _passwordController,
+                  obscureText: _obscurePassword,
                   decoration: InputDecoration(
                     hintText: 'Enter your Password',
-                    hintStyle: TextStyle(color: Colors.white),
-                    enabledBorder: OutlineInputBorder(
+                    hintStyle: const TextStyle(color: Colors.white),
+                    enabledBorder: const OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.white, width: 2),
                     ),
-                    fillColor: Color.fromARGB(104, 210, 156, 228),
+                    fillColor: const Color.fromARGB(104, 210, 156, 228),
                     filled: true,
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        _obscurePassword ? Icons.visibility_off : Icons.visibility,
+                        color: Colors.white,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          _obscurePassword = !_obscurePassword;
+                        });
+                      },
+                    ),
+                    errorText: _passwordError,
                   ),
+                  style: const TextStyle(color: Colors.white),
                 ),
               ),
               const SizedBox(height: 30),
               ElevatedButton(
                 onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => const AgeGroupPage(),
-                    ),
-                  );
-                // Navigate to the AgeGroupPage when the button is pressed
+                  setState(() {
+                    if (_passwordController.text.length < 8) {
+                      _passwordError = 'Password must be at least 8 characters';
+                    } else {
+                      _passwordError = null;
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => const AgeGroupPage(),
+                        ),
+                      );
+                    }
+                  });
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color.fromARGB(255, 255, 255, 255),
@@ -96,11 +128,11 @@ class _LoginPageState extends State<LoginPage> {
                     borderRadius: BorderRadius.circular(30),
                   ),
                 ),
-                child: Text(
+                child: const Text(
                   'Login',
                   style: TextStyle(
                     fontSize: 20,
-                    color: const Color.fromARGB(255, 20, 8, 8),
+                    color: Color.fromARGB(255, 20, 8, 8),
                     fontWeight: FontWeight.bold,
                   ),
                 ),
