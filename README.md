@@ -1,16 +1,12 @@
-# login
-
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+🧾 Features
+1️⃣ Login Page
+Create a basic login form that includes:
+- User ID / Email field
+- Password input field
+- Login button
+🚦 Validation Rules
+- The password must be at least 8 characters long.
+- If the password doesn't meet the requirement, display a clear error message.
+2️⃣ Age Group Selection Page
+Once login is successful, redirect the user to a new page:
+- Display a list of age groups to choose from (e.g., 18–20, 21–25, 26–30, etc.)
