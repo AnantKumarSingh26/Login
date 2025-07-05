@@ -10,12 +10,15 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
   bool _obscurePassword = true;
   String? _passwordError;
+  String? _emailError;
 
   @override
   void dispose() {
     _passwordController.dispose();
+    _emailController.dispose();
     super.dispose();
   }
 
@@ -59,16 +62,18 @@ class _LoginPageState extends State<LoginPage> {
               const SizedBox(height: 70),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 30),
-                child: const TextField(
+                child:  TextField(
+                  controller: _emailController,
                   style: TextStyle(color: Colors.white  ),
                   decoration: InputDecoration(
-                    hintText: 'Enter your email',
+                    hintText: 'Enter your username',
                     hintStyle: TextStyle(color: Colors.white),
                     enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.white, width: 2),
                     ),
                     fillColor: Color.fromARGB(104, 210, 156, 228),
                     filled: true,
+                    errorText: _emailError,
                   ),
                 ),
               ),
@@ -106,6 +111,11 @@ class _LoginPageState extends State<LoginPage> {
               ElevatedButton(
                 onPressed: () {
                   setState(() {
+                    _emailError = null;
+                    _passwordError = null;
+                    if (_emailController.text.isEmpty) {
+                      _emailError = 'Username cannot be empty';
+                    } 
                     if (_passwordController.text.length < 8) {
                       _passwordError = 'Password must be at least 8 characters';
                     } else {
